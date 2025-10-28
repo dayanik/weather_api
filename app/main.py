@@ -1,6 +1,8 @@
-import httpx
 import asyncio
+import httpx
+import json
 import os
+import redis.asyncio as redis
 
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
@@ -10,7 +12,11 @@ from fastapi.responses import HTMLResponse
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+REDIS_HOST = os.getenv("REDIS_HOST")
+REDIS_PORT = os.getenv("REDIS_PORT")
 app = FastAPI()
+redis_client = redis.Redis(
+    host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
 html = """
 <!DOCTYPE html>
@@ -111,6 +117,13 @@ async def get_weather(city: str, start_date: str, end_date: str):
 @app.get("/")
 async def get(city: str | None = None, period: int = 1):
     if city:
+        # ходим в кеш, например `ufa,3`
+        cash_key = city + ':' + str(period)
+        cashed_response = await redis_client.get(cash_key)
+        if cashed_response:
+            context = json.loads(cashed_response)
+            return context
+        
         now_date = datetime.now()
         # `days=period-1` - получаем количество дней с текущим включительно
         end_date = (now_date + timedelta(days=period-1)).strftime("%Y-%m-%d")
@@ -121,6 +134,9 @@ async def get(city: str | None = None, period: int = 1):
         context = {}
         context['address'] = response['address']
         context['days'] = response['days']
+
+        # кэшируем полученные данные со стороннего апи
+        await redis_client.set(cash_key, json.dumps(context), ex=30)
 
         return context
     return HTMLResponse(html)
