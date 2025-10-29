@@ -21,16 +21,17 @@ async def get_cached_response(city: str, period: int):
     try:
         response = await redis_client.get(cash_key)
     except Exception as err:
-         print('failed')
+         print('get failed')
 
     if response:
-        return json.loads(response)
+        response = json.loads(response)
+        return response
 
 
-async def set_cashed_response(city: str, period: int, cash_data: str):
+async def set_cashed_response(city: str, period: int, cash_data: dict):
         cash_key = create_cash_key(city, period)
-        
+        cash_data = json.dumps(cash_data)
         try:
-            await redis_client.set(cash_key, json.dumps(cash_data), ex=TTL)
+            await redis_client.set(cash_key, cash_data, ex=TTL)
         except Exception:
-             print('failed')
+             print('set failed')

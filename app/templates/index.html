@@ -24,52 +24,27 @@
         <button>Send</button>
     </form>
 
-    <h2 id=city_name></h2>
-    <p>Средняя температура: <span id="temp"></span></p>
-    <p>Вероятность осадков: <span id="pop"></span></p>
-    <p>Скорость ветра: <span id="wind"></span></p>
-    <p>Облачность: <span id="clouds"></span></p>
-    
     <table>
-        <caption>Прогноз погоды в <span id=city_name></span></caption>
+        <caption>Прогноз погоды в <span id=city_name>{{ address }}</span></caption>
         <thead>
             <tr>
             <th></th>
-            <th>ночь</th>
-            <th>утро</th>
-            <th>день</th>
-            <th>вечер</th>
+            {% for day in days %}
+                <th>{{ day.datetime }}</th>
+            {% endfor %}
             </tr>
         </thead>
         <tbody>
-            <tr>
-            <th scope="row">температура, °C</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            </tr>
-            <tr>
-            <th scope="row">ветер, км/ч</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            </tr>
-            <tr>
-            <th scope="row">осадки, %</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            </tr>
-            <tr>
-            <th scope="row">облачность, %</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            </tr>
+
+            {% for label, field in params %}
+                <tr>
+                    <th>{{label}}</th>
+                    {% for day in days %}
+                    <td>{{ day[field] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+
         </tbody>
     </table>
 </body>

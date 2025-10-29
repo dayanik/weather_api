@@ -1,4 +1,5 @@
 import httpx
+import pprint
 
 from datetime import datetime, timedelta
 
@@ -24,7 +25,6 @@ def get_period(period: int):
     return start_date, end_date
 
 def data_parsing(response):
-    response = response.json()
     context = {}
     context['address'] = response['address']
     context['days'] = response['days']
@@ -42,7 +42,6 @@ async def get_weather(city: str, period: int):
             response = await client.get(url=full_path, params=params)
         except Exception as err:
             response = err
-        
-        response = data_parsing(response)
+        response = data_parsing(response.json())
 
         return response
