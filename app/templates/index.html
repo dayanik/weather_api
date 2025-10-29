@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+    <form action="/" method="get">
+        <label for="city">Выберите city:</label>
+        <select name="city" id="city">
+            <option value="ufa">ufa</option>
+            <option value="sibay">sibay</option>
+            <option value="moscow">moscow</option>
+        </select>
+
+        <label for="period">Выберите period:</label>
+        <select name="period" id="period">
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="7">7</option>
+        </select>
+        <button>Send</button>
+    </form>
+
+    <h2 id=city_name></h2>
+    <p>Средняя температура: <span id="temp"></span></p>
+    <p>Вероятность осадков: <span id="pop"></span></p>
+    <p>Скорость ветра: <span id="wind"></span></p>
+    <p>Облачность: <span id="clouds"></span></p>
+    
+    <table>
+        <caption>Прогноз погоды в <span id=city_name></span></caption>
+        <thead>
+            <tr>
+            <th></th>
+            <th>ночь</th>
+            <th>утро</th>
+            <th>день</th>
+            <th>вечер</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <th scope="row">температура, °C</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+            <tr>
+            <th scope="row">ветер, км/ч</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+            <tr>
+            <th scope="row">осадки, %</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+            <tr>
+            <th scope="row">облачность, %</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,131 @@
+/* Общие стили страницы */
+body {
+    font-family: "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(to bottom right, #e6f0ff, #ffffff);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Форма */
+form {
+    background: #f9fbff;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin-bottom: 30px;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+select,
+button {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+button {
+    background-color: #0078ff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005fcc;
+}
+
+/* Информация о погоде */
+h2 {
+    margin-top: 20px;
+    color: #005fcc;
+}
+
+p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+p span {
+    font-weight: bold;
+}
+
+/* Таблица */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+caption {
+    caption-side: top;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #0078ff;
+    color: white;
+}
+
+th,
+td {
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    padding: 10px;
+}
+
+th[scope="row"] {
+    text-align: left;
+    background-color: #f2f6ff;
+    font-weight: 600;
+}
+
+thead th {
+    background-color: #e6eeff;
+    font-weight: 700;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    th,
+    td {
+        text-align: right;
+        padding: 8px 10px;
+    }
+
+    th[scope="row"] {
+        background: #f0f4ff;
+    }
+
+    caption {
+        font-size: 16px;
+    }
+}
