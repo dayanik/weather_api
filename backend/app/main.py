@@ -8,6 +8,7 @@ app = FastAPI()
 app.router.redirect_slashes = False
 
 
+@app.get("/api/")
 @app.get("/api")
 async def get(city: str | None = None, period: int = 1):
     if city:

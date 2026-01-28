@@ -37,8 +37,6 @@
     </table>
 
     <script>
-        // Example parameters we want to show
-        const params = ["temperature", "humidity", "wind"];
 
         async function fetchWeather(city, period) {
             // Replace with your real API endpoint
@@ -54,7 +52,7 @@
             daysRow.innerHTML = "<th></th>"; // reset
             data.days.forEach(day => {
                 const th = document.createElement("th");
-                th.textContent = day.date;
+                th.textContent = day.datetime;
                 daysRow.appendChild(th);
             });
 
@@ -62,15 +60,15 @@
             const tbody = document.getElementById("weatherBody");
             tbody.innerHTML = ""; // reset
 
-            params.forEach(param => {
+            data.params.forEach(param => {
                 const tr = document.createElement("tr");
                 const th = document.createElement("th");
-                th.textContent = param;
+                th.textContent = param[0];
                 tr.appendChild(th);
 
                 data.days.forEach(day => {
                     const td = document.createElement("td");
-                    td.textContent = day[param];
+                    td.textContent = day[param[1]];
                     tr.appendChild(td);
                 });
 
