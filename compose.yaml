@@ -9,9 +9,10 @@ services:
 
   backend:
     build:
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     depends_on:
-      - redis:
+      redis:
         condition: service_healthy
     restart: always
     env_file:
@@ -19,4 +20,4 @@ services:
     environment:
       REDIS_URL: redis://redis:6379
     ports:
-    - "8000:8000"
+      - "8000:8000"
