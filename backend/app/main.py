@@ -1,8 +1,4 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-
+from fastapi import FastAPI
 
 from app.weather_service import get_weather
 from app.cashe import get_cached_response, set_cashed_response
@@ -10,15 +6,9 @@ from app.cashe import get_cached_response, set_cashed_response
 
 app = FastAPI()
 
-# Подключаем папку со статикой
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Настраиваем шаблонизатор Jinja2
-templates = Jinja2Templates(directory="templates")
-
-
-@app.get("/", response_class=HTMLResponse)
-async def get(request: Request, city: str | None = None, period: int = 1):
+@app.get("/")
+async def get(city: str | None = None, period: int = 1):
     if city:
         # пытаемся получить кэш ответ
         response = await get_cached_response(city, period)
@@ -39,6 +29,5 @@ async def get(request: Request, city: str | None = None, period: int = 1):
         context.update(response)
         context["params"] = params
 
-        return templates.TemplateResponse(
-            request, name="index.html", context=context)
-    return templates.TemplateResponse(request, "index.html")
+        return context
+    return {"Плохой запрос!"}
