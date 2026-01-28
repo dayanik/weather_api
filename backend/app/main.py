@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 
 from app.weather_service import get_weather
-from app.cashe import redis_client, get_cached_response, set_cashed_response
+from app.cashe import get_cached_response, set_cashed_response
 
 
 app = FastAPI()

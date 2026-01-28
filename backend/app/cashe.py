@@ -2,13 +2,12 @@ import json
 
 import redis.asyncio as redis
 
-from app.config import REDIS_HOST, REDIS_PORT
+from app.config import REDIS_URL
 
 
 TTL = 30  # ttl cash time
 
-redis_client = redis.Redis(
-    host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+redis_client = redis.Redis.from_url(REDIS_URL)
 
 
 def create_cash_key(city: str, period: int):
