@@ -42,7 +42,7 @@
 
         async function fetchWeather(city, period) {
             // Replace with your real API endpoint
-            const response = await fetch(`/api/?city=${city}&period=${period}`);
+            const response = await fetch(`/api?city=${city}&period=${period}`);
             return await response.json();
         }
 

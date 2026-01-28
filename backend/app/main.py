@@ -5,9 +5,10 @@ from app.cashe import get_cached_response, set_cashed_response
 
 
 app = FastAPI()
+app.router.redirect_slashes = False
 
 
-@app.get("/")
+@app.get("/api")
 async def get(city: str | None = None, period: int = 1):
     if city:
         # пытаемся получить кэш ответ
