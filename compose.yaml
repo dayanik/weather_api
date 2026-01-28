@@ -23,7 +23,7 @@ services:
 
   frontend:
     build: nginx:alpine
-    volume:
+    volumes:
       - ./frontend:/usr/share/nginx/html:ro
     expose:
       - "80"
