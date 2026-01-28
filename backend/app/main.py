@@ -11,10 +11,10 @@ from app.cashe import get_cached_response, set_cashed_response
 app = FastAPI()
 
 # Подключаем папку со статикой
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Настраиваем шаблонизатор Jinja2
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/", response_class=HTMLResponse)

@@ -18,11 +18,20 @@ WORKDIR /backend
 
 ENV PATH="/backend/.venv/bin:$PATH"
 
+# Install dependencies
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#intermediate-layers
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project
+
 COPY ./pyproject.toml ./uv.lock ./
 
 COPY ./app ./app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync
+    uv sync --locked
 
-CMD ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
+WORKDIR /backend/app
+
+CMD ["fastapi", "run", "main.py", "--host", "0.0.0.0", "--port", "8000"]
