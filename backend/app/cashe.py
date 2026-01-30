@@ -17,14 +17,11 @@ def create_cash_key(city: str, period: int):
 async def get_cached_response(city: str, period: int):
     cash_key = create_cash_key(city, period)
 
-    try:
-        response = await redis_client.get(cash_key)
-    except Exception as err:
-         print('get failed')
+    response = await redis_client.get(cash_key)
 
     if response:
         response = json.loads(response)
-        return response
+    return response
 
 
 async def set_cashed_response(city: str, period: int, cash_data: dict):

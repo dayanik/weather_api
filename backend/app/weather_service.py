@@ -30,6 +30,11 @@ class WeatherResponse:
     days: list[WeatherDay]
 
 
+class ApiUnavailableError(Exception):
+    """Сервер API недоступен"""
+    pass
+
+
 path = "https://weather.visualcrossing.com/VisualCrossingWebServices/"\
 "rest/services/timeline/{city}/{start_date}/{end_date}/"
 params = {
@@ -64,7 +69,7 @@ async def get_weather(city: str, period: int):
         
         try:
             response: WeatherResponse = await client.get(url=full_path, params=params)
-        except Exception as err:
-            response = err
+        except Exception:
+            raise ApiUnavailableError('api сервер не доступен')
         response = data_parsing(response.json())
         return response
