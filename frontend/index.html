@@ -10,9 +10,10 @@
     <form id="weatherForm">
         <label for="city">Выберите city:</label>
         <select name="city" id="city">
-            <option value="ufa">ufa</option>
-            <option value="sibay">sibay</option>
-            <option value="moscow">moscow</option>
+            <option value="ufa">уфа</option>
+            <option value="inzer">инзер</option>
+            <option value="sibay">сибай</option>
+            <option value="moscow">москва</option>
         </select>
 
         <label for="period">Выберите period:</label>
@@ -37,6 +38,14 @@
     </table>
 
     <script>
+        const params = [
+            ['макс. темп-ра, °C', 'tempmax'],
+            ['мин. темп-ра, °C', 'tempmin'],
+            ['температура, °C', 'temp'],
+            ['ветер, км/ч', 'windspeed'],
+            ['осадки, %', 'precip'],
+            ['облачность, %', 'cloudcover']
+        ];
 
         async function fetchWeather(city, period) {
             // Replace with your real API endpoint
@@ -60,7 +69,7 @@
             const tbody = document.getElementById("weatherBody");
             tbody.innerHTML = ""; // reset
 
-            data.params.forEach(param => {
+            params.forEach(param => {
                 const tr = document.createElement("tr");
                 const th = document.createElement("th");
                 th.textContent = param[0];

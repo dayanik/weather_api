@@ -20,16 +20,6 @@ async def get(city: str | None = None, period: int = 1):
 
             # кэшируем полученные данные со стороннего апи
             await set_cashed_response(city, period, response)
-        
-        params = [
-            ('температура, °C', 'temp'),
-            ('ветер, км/ч', 'windspeed'),
-            ('осадки, %', 'precip'),
-            ('облачность, %', 'cloudcover')
-        ]
-        context = {}
-        context.update(response)
-        context["params"] = params
 
-        return context
+        return response
     return {"Плохой запрос!"}

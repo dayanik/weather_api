@@ -1,16 +1,40 @@
 import httpx
-import pprint
 
-from datetime import datetime, timedelta
+from dataclasses import dataclass
+from datetime import date, timedelta
 
 from app.config import API_KEY
+
+
+@dataclass
+class WeatherDay:
+    datetime: date
+    tempmax: float
+    tempmin: float
+    temp: float
+    precip: float
+    windspeed: float
+    cloudcover: float
+    normal: dict[str: list]
+
+
+@dataclass
+class WeatherResponse:
+    querycost: int
+    latitude: float
+    longitude: float
+    resolvedAddress: str
+    address: str
+    timezone: str
+    tzoffset: int
+    days: list[WeatherDay]
 
 
 path = "https://weather.visualcrossing.com/VisualCrossingWebServices/"\
 "rest/services/timeline/{city}/{start_date}/{end_date}/"
 params = {
     "unitGroup": 'metric',
-    "elements": "cloudcover,datetime,precip,temp,windspeed",
+    "elements": "cloudcover,datetime,precip,temp,tempmax,tempmin,windspeed",
     "include": "days",
     "key": API_KEY,
     "contentType": "json"
@@ -18,15 +42,15 @@ params = {
 
 
 def get_period(period: int):
-    now_date = datetime.now()
+    now_date = date.today()
     # `days=period-1` - получаем количество дней с текущим включительно
-    end_date = (now_date + timedelta(days=period-1)).strftime("%Y-%m-%d")
-    start_date = now_date.strftime("%Y-%m-%d")
+    end_date = (now_date + timedelta(days=period-1)).isoformat()
+    start_date = now_date.isoformat()
     return start_date, end_date
 
-def data_parsing(response):
+
+def data_parsing(response: WeatherResponse) -> dict:
     context = {}
-    context['address'] = response['address']
     context['days'] = response['days']
     return context
 
@@ -39,9 +63,8 @@ async def get_weather(city: str, period: int):
             city=city, start_date=start_date, end_date=end_date)
         
         try:
-            response = await client.get(url=full_path, params=params)
+            response: WeatherResponse = await client.get(url=full_path, params=params)
         except Exception as err:
             response = err
         response = data_parsing(response.json())
-
         return response
